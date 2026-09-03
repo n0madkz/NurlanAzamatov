@@ -1,0 +1,3 @@
+<?php
+if (!defined('ADMIN_SECURITY_PANEL')) exit;
+echo '<div class="admin-card security-admin"><div class="card-title"><div><p class="eyebrow">SECURITY</p><h2>Құпиясөзді өзгерту</h2></div></div><form method="post" class="admin-form"><input type="hidden" name="change_password" value="1"><label>Қазіргі құпиясөз<input type="password" name="current_password" required></label><label>Жаңа құпиясөз<input type="password" name="new_password" minlength="8" required></label><label>Құпиясөзді растау<input type="password" name="confirm_password" minlength="8" required></label><button class="button button-dark" type="submit">Сақтау</button></form></div>';
