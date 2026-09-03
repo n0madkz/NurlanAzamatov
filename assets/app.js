@@ -245,8 +245,8 @@ document.querySelectorAll('.ticker span').forEach((item) => { item.innerHTML = '
 
 // Highlight the current section in the fixed mobile app navigation.
 const sectionNav = document.querySelector('.site-header nav');
+const navLinks = sectionNav ? [...sectionNav.querySelectorAll('a')] : [];
 if (sectionNav) {
-  const navLinks = [...sectionNav.querySelectorAll('a')];
   const sections = navLinks.map((link) => document.querySelector(link.getAttribute('href')) || (link.getAttribute('href') === '#training' ? document.querySelector('.hero') : null)).filter(Boolean);
   const setActive = (section) => navLinks.forEach((link) => { const target = document.querySelector(link.getAttribute('href')) || (link.getAttribute('href') === '#training' ? document.querySelector('.hero') : null); link.classList.toggle('is-active', target === section); });
   const sectionObserver = new IntersectionObserver((entries) => {
@@ -259,3 +259,24 @@ if (sectionNav) {
     if (target) setActive(target);
   }));
 }
+
+// On mobile, detach the navigation from the header so it is a true bottom dock.
+if (sectionNav && window.matchMedia('(max-width: 750px)').matches) {
+  const navIcons = {
+    '#training': '<path d="M4 19.5V6.8a2 2 0 0 1 2-2h12v14H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12"/>',
+    '#events': '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h3M8 17h5"/>',
+    '#about': '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8.5h.01"/>',
+    '#gallery': '<rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m6 17 4-4 3 3 2-2 3 3"/>',
+    '#certificates': '<path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"/>'
+  };
+  navLinks.forEach((link) => {
+    const href = link.getAttribute('href');
+    link.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (navIcons[href] || navIcons['#events']) + '</svg><span>' + link.textContent.trim() + '</span>';
+  });
+  sectionNav.classList.add('mobile-nav-dock');
+  document.body.append(sectionNav);
+}
+
+// Remove internal editorial labels that should not appear on the personal site.
+document.querySelector('.split-copy > .eyebrow')?.remove();
+document.querySelector('.gallery .eyebrow')?.remove();
