@@ -52,7 +52,7 @@ const brandWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEX
 while (node = brandWalker.nextNode()) { if (node.nodeValue.includes('STAGESPEAK')) node.nodeValue = node.nodeValue.split('STAGESPEAK').join(schoolName); }
 document.title = schoolName + ' — афиша';
 const scheduleIntro = document.querySelector('.schedule .section-intro'); if (scheduleIntro) scheduleIntro.innerHTML = '&#1058;&#1088;&#1077;&#1085;&#1077;&#1088;: &#1053;&#1201;&#1088;&#1083;&#1072;&#1085; &#1040;&#1079;&#1072;&#1084;&#1072;&#1090;&#1086;&#1074;<br>&#1058;&#1088;&#1077;&#1085;&#1080;&#1085;&#1075; &#1201;&#1079;&#1072;&#1179;&#1090;&#1099;&#1083;&#1099;&#1171;&#1099;: 14 &#1089;&#1072;&#1171;&#1072;&#1090;';
-const taplinkImages = ['assets/taplink/taplink-1.png','assets/taplink/taplink-2.jpg','assets/taplink/taplink-3.jpg'];
+const taplinkImages = ['assets/uploads/backgrounds/main/nurlan-portrait.JPG','assets/drive/photos/483528293_28821656594145921_3746918195898899378_n.jpg','assets/drive/photos/483365109_28816670661311181_1426371898592760444_n.jpg'];
 const heroImage = document.querySelector('.hero-image img'); if (heroImage) heroImage.src = taplinkImages[0];
 const splitImage = document.querySelector('.split-image img'); if (splitImage) splitImage.src = taplinkImages[1];
 document.querySelectorAll('.gallery-grid img').forEach((image, index) => image.src = taplinkImages[index % taplinkImages.length]);
@@ -78,19 +78,19 @@ const nav = document.querySelector('.site-header nav'); if (nav && !nav.querySel
 const fontLink = document.createElement('link'); fontLink.rel = 'stylesheet'; fontLink.href = 'https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap'; document.head.append(fontLink);
 // Schedule screenshots are transcribed into the program section, so keep the gallery visual-only.
 const visualGallery = [
-  'assets/taplink/taplink-1.png',
-  'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=85',
-  'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=85',
-  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=85'
+  'assets/drive/photos/481510086_28816670704644510_3530916731107346624_n.jpg',
+  'assets/drive/photos/483365109_28816670661311181_1426371898592760444_n.jpg',
+  'assets/drive/photos/483528293_28821656594145921_3746918195898899378_n.jpg',
+  'assets/drive/photos/506606089_30050761081235460_5702181368424452149_n.jpg'
 ];
 const visualSplit = document.querySelector('.split-image img'); if (visualSplit) visualSplit.src = visualGallery[1];
 document.querySelectorAll('.gallery-grid img').forEach((image, index) => image.src = visualGallery[index]);
 const ambient = document.createElement('div');
 ambient.className = 'ambient-bg';
 const ambientImages = [
-  'assets/taplink/taplink-1.png',
-  'assets/taplink/taplink-1.png',
-  'assets/taplink/taplink-1.png'
+  'assets/drive/photos/481510086_28816670704644510_3530916731107346624_n.jpg',
+  'assets/drive/photos/483528293_28821656594145921_3746918195898899378_n.jpg',
+  'assets/drive/photos/481510086_28816670704644510_3530916731107346624_n.jpg'
 ];
 ambientImages.forEach((src, index) => { const image = document.createElement('img'); image.src = src; image.alt = ''; if (index === 0) image.className = 'is-active'; ambient.append(image); });
 document.body.prepend(ambient);
