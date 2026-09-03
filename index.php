@@ -2,7 +2,7 @@
 ob_start(function ($html) {
     return str_ireplace(['StageSpeak', 'STAGESPEAK', 'Almaty', 'ALMATY', 'Алматы'], '', $html);
 });
-require __DIR__ . '/db.php';
+require __DIR__ . '/db.php'; require __DIR__ . '/fallback-public-archive.php';
 $posters = [];
 if ($pdo) { $posters = $pdo->query("SELECT * FROM posters WHERE is_archived = FALSE ORDER BY event_date ASC")->fetchAll(); }
 if (!$posters) $posters = [[ 'id'=>1, 'title'=>'Голос, который слышно', 'description'=>'Практикум по уверенной подаче, интонации и работе с волнением.', 'event_date'=>'2026-09-18', 'event_time'=>'19:00', 'location'=>'Алматы · Talan Towers', 'category'=>'Практика', 'image_url'=>'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=85', 'registration_url'=>'#' ], [ 'id'=>2, 'title'=>'Сцена без страха', 'description'=>'Однодневный интенсив для тех, кто хочет говорить свободно и убедительно.', 'event_date'=>'2026-10-03', 'event_time'=>'11:00', 'location'=>'Алматы · The Ritz-Carlton', 'category'=>'Интенсив', 'image_url'=>'https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=1200&q=85', 'registration_url'=>'#' ]];
