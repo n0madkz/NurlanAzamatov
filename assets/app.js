@@ -222,3 +222,18 @@ if (tickerTrack) {
     Object.assign(document.createElement('span'), { className: 'ticker-copy', textContent: tickerCopy, ariaHidden: 'true' })
   );
 }
+
+// Registration is configured per poster in the admin panel and opens the supplied form.
+document.querySelectorAll('.poster-link').forEach((link) => {
+  let href = link.getAttribute('href');
+  if (!href || href === '#') {
+    href = 'https://docs.google.com/forms/d/e/1FAIpQLSfcUPKYhnZmBe1D7deasaZU56Amx5WIWxsGDvrWwB7GDQ8deA/viewform';
+    link.setAttribute('href', href);
+  }
+  const text = Array.from(link.childNodes).find((node) => node.nodeType === Node.TEXT_NODE);
+  if (text) text.textContent = 'Тіркелу ';
+  if (href && href !== '#') {
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  }
+});
