@@ -22,3 +22,16 @@ body,button,input,textarea,.brand,.hero h1,.hero h1 em,h1,h2,h2 em,h3,p,a,li,tim
 .security-admin .admin-form{max-width:760px}.security-admin .admin-form button{grid-column:1/-1}
 .admin-nav{display:grid;gap:8px;margin-top:28px}.admin-nav button{display:flex;align-items:center;gap:12px;border:1px solid transparent;background:transparent;color:#a6a099;text-align:left;padding:12px 14px;font:13px 'Golos Text',Arial,sans-serif;cursor:pointer;border-radius:10px;transition:.2s}.admin-nav button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}.admin-nav button:hover,.admin-nav button.is-active{color:#f4f0e8;border-color:#ff634b;background:#ff634b18}.admin-content>.admin-card[hidden],.media-admin-block[hidden]{display:none!important}@media(max-width:750px){.admin-nav{grid-template-columns:repeat(2,1fr);margin-bottom:28px}.admin-nav button{padding:10px;font-size:12px}}
 .site-header nav a[href="#about"]{background:#f4f0e8;color:#080808;border-color:#f4f0e8}.site-header nav a[href="#about"]:hover{background:#fff;color:#080808;border-color:#fff;box-shadow:0 9px 22px rgba(244,240,232,.2)}
+
+/* Refined hero: calm real training-room photos, stronger hierarchy and a softer portrait frame. */
+.hero{position:relative;isolation:isolate;background:radial-gradient(circle at 78% 42%,rgba(255,99,75,.12),transparent 28%),linear-gradient(110deg,rgba(8,8,8,.96) 0%,rgba(8,8,8,.82) 53%,rgba(8,8,8,.9) 100%)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(8,8,8,.35),transparent 48%,rgba(8,8,8,.3));pointer-events:none}
+.ambient-bg img{opacity:.3;filter:grayscale(22%) contrast(.95);transform:scale(1.015)}
+.ambient-bg img.is-active{opacity:.3;transform:scale(1.035)}
+.hero-image{width:min(72%,370px);height:535px;border:1px solid rgba(244,240,232,.24);background:#161616;box-shadow:0 28px 80px rgba(0,0,0,.62),12px 12px 0 rgba(255,99,75,.18);transform:rotate(2deg)}
+.hero-image::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,8,.02),rgba(8,8,8,.34));pointer-events:none}
+.hero-image img{filter:grayscale(92%) brightness(.78) contrast(1.08);transition:filter .5s,transform .7s}
+.hero-image:hover img{filter:grayscale(20%) brightness(.88) contrast(1.04);transform:scale(1.04)}
+.hero-ring{width:455px;height:455px;opacity:.72}
+.hero-sticker{box-shadow:0 14px 30px rgba(0,0,0,.35)}
+@media(max-width:750px){.hero{background:linear-gradient(180deg,rgba(8,8,8,.9),rgba(8,8,8,.82))}.hero-image{width:min(78%,340px);height:430px}.hero-ring{width:340px;height:340px}}
