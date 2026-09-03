@@ -63,3 +63,5 @@ body,button,input,textarea,.brand,.hero h1,.hero h1 em,h1,h2,h2 em,h3,p,a,li,tim
 .hero-ring{width:455px;height:455px;opacity:.72}
 .hero-sticker{box-shadow:0 14px 30px rgba(0,0,0,.35)}
 @media(max-width:750px){.hero{background:linear-gradient(180deg,rgba(8,8,8,.9),rgba(8,8,8,.82))}.hero-image{width:min(78%,340px);height:430px}.hero-ring{width:340px;height:340px}}
+/* Keep administrator access visible while managing long lists. */
+.admin-page .site-header{position:sticky;top:0;z-index:20;background:#080808}.admin-user a{display:inline-block;padding:8px 12px;border:1px solid #ff634b;border-radius:999px;color:#ff634b}.admin-user a:hover{background:#ff634b;color:#080808}

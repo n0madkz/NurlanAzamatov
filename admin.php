@@ -2,7 +2,7 @@
 ob_start(function ($html) {
     return str_ireplace(['StageSpeak', 'STAGESPEAK', 'Almaty', 'ALMATY', 'Алматы'], '', $html);
 });
-require __DIR__ . '/db.php'; require __DIR__ . '/auth.php'; requireAdmin();
+require __DIR__ . '/db.php'; require __DIR__ . '/auth.php'; requireAdmin(); require __DIR__ . '/fallback-archive-view.php';
 foreach (['gallery', 'certificates'] as $mediaType) { if (!is_dir(__DIR__ . '/assets/uploads/' . $mediaType)) mkdir(__DIR__ . '/assets/uploads/' . $mediaType, 0775, true); }
 foreach (['posters', 'backgrounds/main', 'backgrounds/ambient'] as $uploadType) { if (!is_dir(__DIR__ . '/assets/uploads/' . $uploadType)) mkdir(__DIR__ . '/assets/uploads/' . $uploadType, 0775, true); }
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['cover_file']) && ($_FILES['cover_file']['error'] ?? 1) === UPLOAD_ERR_OK && getimagesize($_FILES['cover_file']['tmp_name']) !== false) { $ext = strtolower(pathinfo($_FILES['cover_file']['name'], PATHINFO_EXTENSION)); if (in_array($ext, ['jpg','jpeg','png','webp'], true)) { $name = bin2hex(random_bytes(8)) . '.' . ($ext === 'jpeg' ? 'jpg' : $ext); move_uploaded_file($_FILES['cover_file']['tmp_name'], __DIR__ . '/assets/uploads/posters/' . $name); $_POST['image_url'] = 'assets/uploads/posters/' . $name; } }
