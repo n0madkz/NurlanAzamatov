@@ -237,3 +237,20 @@ document.querySelectorAll('.poster-link').forEach((link) => {
     link.rel = 'noopener noreferrer';
   }
 });
+
+// Highlight the current section in the fixed mobile app navigation.
+const sectionNav = document.querySelector('.site-header nav');
+if (sectionNav) {
+  const navLinks = [...sectionNav.querySelectorAll('a')];
+  const sections = navLinks.map((link) => document.querySelector(link.getAttribute('href')) || (link.getAttribute('href') === '#training' ? document.querySelector('.hero') : null)).filter(Boolean);
+  const setActive = (section) => navLinks.forEach((link) => { const target = document.querySelector(link.getAttribute('href')) || (link.getAttribute('href') === '#training' ? document.querySelector('.hero') : null); link.classList.toggle('is-active', target === section); });
+  const sectionObserver = new IntersectionObserver((entries) => {
+    const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible) setActive(visible.target);
+  }, { rootMargin: '-28% 0px -58% 0px', threshold: [0.1, 0.3, 0.6] });
+  sections.forEach((section) => sectionObserver.observe(section));
+  navLinks.forEach((link) => link.addEventListener('click', () => {
+    const target = document.querySelector(link.getAttribute('href')) || (link.getAttribute('href') === '#training' ? document.querySelector('.hero') : null);
+    if (target) setActive(target);
+  }));
+}
