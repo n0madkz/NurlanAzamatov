@@ -216,7 +216,7 @@ fetch('media.php').then((response) => response.ok ? response.json() : null).then
 // Keep the ticker continuously filled while it loops.
 const tickerTrack = document.querySelector('.ticker>div');
 if (tickerTrack) {
-  const tickerCopy = tickerTrack.textContent.trim();
+  const tickerCopy = tickerTrack.textContent.trim().replace(/[✳]/g, '');
   tickerTrack.replaceChildren(
     Object.assign(document.createElement('span'), { className: 'ticker-copy', textContent: tickerCopy }),
     Object.assign(document.createElement('span'), { className: 'ticker-copy', textContent: tickerCopy, ariaHidden: 'true' })
@@ -241,7 +241,7 @@ document.querySelectorAll('.poster-link').forEach((link) => {
 // Replace text symbols with consistent inline SVG icons.
 const menuButton = document.querySelector('.menu-toggle');
 if (menuButton) menuButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
-document.querySelectorAll('.ticker span').forEach((item) => { item.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.4 6.2L19 7l-4.2 5 5.2 2.2-6.2.1L12 21l-1.8-6.7-6.2-.1L9.2 12 5 7l5.6 2.2L12 3Z"/></svg>'; });
+document.querySelectorAll('.ticker span:not(.ticker-copy)').forEach((item) => { item.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.4 6.2L19 7l-4.2 5 5.2 2.2-6.2.1L12 21l-1.8-6.7-6.2-.1L9.2 12 5 7l5.6 2.2L12 3Z"/></svg>'; });
 
 // Highlight the current section in the fixed mobile app navigation.
 const sectionNav = document.querySelector('.site-header nav');
