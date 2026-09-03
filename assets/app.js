@@ -80,6 +80,10 @@ certificates.querySelector('.certificates-copy p')?.remove();
 const certLink = certificates.querySelector('a'); if (certLink) certLink.href = 'https://drive.google.com/drive/folders/12BPfRpNaDXNuGZ9H-7EWchXqUr53OM-Q';
 const nav = document.querySelector('.site-header nav'); if (nav && !nav.querySelector('[href="#certificates"]')) { const link = document.createElement('a'); link.href = '#certificates'; link.textContent = kz(0x0421,0x0435,0x0440,0x0442,0x0438,0x0444,0x0438,0x043a,0x0430,0x0442,0x0442,0x0430,0x0440); nav.append(link); }
 if (nav && !nav.querySelector('[href="#training"]')) { const link = document.createElement('a'); link.href = '#training'; link.textContent = '\u0422\u0440\u0435\u043d\u0438\u043d\u0433'; nav.insertBefore(link, nav.firstChild); }
+if (nav) {
+  const navLabels = {'#training':'\u0422\u0440\u0435\u043d\u0438\u043d\u0433','#events':'\u0410\u0444\u0438\u0448\u0430\u043b\u0430\u0440','#about':'\u0416\u043e\u0431\u0430 \u0442\u0443\u0440\u0430\u043b\u044b','#gallery':'\u0413\u0430\u043b\u0435\u0440\u0435\u044f','#certificates':'\u0421\u0435\u0440\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u0442\u0430\u0440'};
+  nav.querySelectorAll('a').forEach((link) => { if (navLabels[link.getAttribute('href')]) link.textContent = navLabels[link.getAttribute('href')]; });
+}
 const fontLink = document.createElement('link'); fontLink.rel = 'stylesheet'; fontLink.href = 'https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap'; document.head.append(fontLink);
 // Schedule screenshots are transcribed into the program section, so keep the gallery visual-only.
 const visualGallery = [
