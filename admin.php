@@ -17,7 +17,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['media_delete'])) {
     $type = in_array($_POST['media_type'] ?? '', ['gallery', 'certificates'], true) ? $_POST['media_type'] : 'gallery'; $name = basename($_POST['media_name'] ?? ''); $path = __DIR__ . '/assets/uploads/' . $type . '/' . $name;
     if ($name && is_file($path)) { unlink($path); $message = 'Файл өшірілді.'; }
 }
+$fallbackArchiveFile = __DIR__ . '/data/posters-archive.json';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$pdo && isset($_POST['archive'])) {
+    $stateDir = dirname($fallbackArchiveFile);
+    if (!is_dir($stateDir)) mkdir($stateDir, 0775, true);
+    $state = is_file($fallbackArchiveFile) ? json_decode((string)file_get_contents($fallbackArchiveFile), true) : [];
+    $state = is_array($state) ? $state : [];
+    $state['archived'] = array_values(array_unique(array_map('intval', $state['archived'] ?? [])));
+    $id = (int)$_POST['archive'];
+    if ($id && !in_array($id, $state['archived'], true)) $state['archived'][] = $id;
+    file_put_contents($fallbackArchiveFile, json_encode($state, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), LOCK_EX);
+    $message = 'Афиша отправлена в архив.';
+}
 define('ADMIN_MEDIA_PANEL', true);
+$fallbackArchivedIds = [];
+if (is_file(__DIR__ . '/data/posters-archive.json')) {
+    $fallbackState = json_decode((string)file_get_contents(__DIR__ . '/data/posters-archive.json'), true);
+    $fallbackArchivedIds = array_values(array_unique(array_map('intval', is_array($fallbackState['archived'] ?? null) ? $fallbackState['archived'] : [])));
+}
+ob_start(function ($html) use ($fallbackArchivedIds) {
+    if (!$fallbackArchivedIds) return $html;
+    foreach ($fallbackArchivedIds as $id) {
+        $html = preg_replace('~<div class="admin-row">.*?<button class="archive-btn" name="archive" value="' . preg_quote((string)$id, '~') . '".*?</form></div>~s', '', $html);
+    }
+    return $html;
+});
 ob_start(); require __DIR__ . '/media-panel.php'; $mediaPanel = ob_get_clean();
 define('ADMIN_BACKGROUND_PANEL', true); ob_start(); require __DIR__ . '/background-panel.php'; $backgroundPanel = ob_get_clean();
 ob_start(function ($html) use ($mediaPanel, $backgroundPanel) { $marker = '<form method="post" class="admin-form">'; $pos = strpos($html, $marker); if ($pos !== false) { $replacement = '<form method="post" enctype="multipart/form-data" class="admin-form"><label class="wide">Обложка афиши<input type="file" name="cover_file" accept="image/jpeg,image/png,image/webp"></label>'; $html = substr_replace($html, $replacement, $pos, strlen($marker)); } return str_replace('</section></main>', $mediaPanel . $backgroundPanel . '</section></main>', $html); });
