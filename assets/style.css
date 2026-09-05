@@ -51,6 +51,10 @@ body,button,input,textarea,.brand,.hero h1,.hero h1 em,h1,h2,h2 em,h3,p,a,li,tim
 .ambient-bg img,.hero-image img,.poster-image img,.split-image img,.gallery-grid img,.certificate-card img{filter:none!important}
 .hero-image:hover img,.poster-card:hover .poster-image img,.gallery-grid img:hover,.certificate-card:hover img{filter:none!important}
 
+/* Keep the four lead gallery photos in a complete editorial mosaic. */
+@media(min-width:751px){.gallery-grid .g1{grid-column:1;grid-row:1/span 2}.gallery-grid .g2{grid-column:2;grid-row:1}.gallery-grid .g3{grid-column:2;grid-row:2}.gallery-grid .g4{grid-column:3;grid-row:1/span 2}}
+@media(max-width:750px){.gallery-grid .g1{grid-column:1;grid-row:1/span 2}.gallery-grid .g2{grid-column:2;grid-row:1}.gallery-grid .g4{grid-column:2;grid-row:2}.gallery-grid .g3{grid-column:1/-1;grid-row:3}}
+
 /* Refined hero: calm real training-room photos, stronger hierarchy and a softer portrait frame. */
 .hero{position:relative;isolation:isolate;background:radial-gradient(circle at 78% 42%,rgba(255,99,75,.12),transparent 28%),linear-gradient(110deg,rgba(8,8,8,.96) 0%,rgba(8,8,8,.82) 53%,rgba(8,8,8,.9) 100%)}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(8,8,8,.35),transparent 48%,rgba(8,8,8,.3));pointer-events:none}

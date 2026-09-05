@@ -68,7 +68,7 @@ let socket;
         assert.equal(state.position,'fixed'); assert.equal(state.header,'none');
         assert.ok(Math.abs(state.bottom-height)<1,'dock bottom matches viewport');
         assert.equal(state.links.length,5);
-        assert.deepEqual(state.links.map(a=>a.text),['Басты бет','Тренинг','Афишалар','Галерея','Сертификаттар']);
+        assert.deepEqual(state.links.map(a=>a.text),['Басты бет','Тренинг','Жоба туралы','Галерея','Сертификаттар']);
         assert.ok(state.links.every(a=>a.icon&&a.height>=44&&!a.clipped),'icons, touch area and labels: '+JSON.stringify(state));
         assert.ok(Math.max(...state.links.map(a=>a.width))-Math.min(...state.links.map(a=>a.width))<1,'equal tabs');
       } else assert.equal(state.display,'none');
@@ -77,17 +77,31 @@ let socket;
     if(route.includes('index')) {
       assert.equal(await evaluate(`document.querySelectorAll('.training-details').length`),0);
       assert.equal(await evaluate(`document.querySelector('.training-cover .training-cta').getAttribute('href')`),'training-details.php');
+      assert.equal(await evaluate(`document.querySelectorAll('.gallery-grid img').length`),16,'all gallery photos rendered');
+      assert.equal(await evaluate(`document.querySelector('.gallery-count').textContent.trim()`),'16 / 16','gallery count updated');
+      await resize(1280,900);
+      const leadGallery = await evaluate(`(() => [...document.querySelectorAll('.gallery-grid > img')].slice(0,4).map(image => { const r=image.getBoundingClientRect(); return {top:r.top,height:r.height}; }))()`);
+      assert.ok(Math.abs(leadGallery[0].top-leadGallery[3].top)<1 && Math.abs(leadGallery[0].height-leadGallery[3].height)<1,'lead mosaic has no empty desktop cell');
+      await resize(390,844);
       await evaluate(`document.documentElement.style.scrollBehavior='auto'`);
       assert.equal((await geometry()).active,'home','home is active at page start');
       for(const key of ['events','about','gallery','certificates']) {
         await evaluate(`document.getElementById('${key}').scrollIntoView()`); await delay(250);
         const state=await geometry();
-        assert.equal(state.active,key === 'about' ? 'events' : key,`highlight ${key}`);
+        assert.equal(state.active,key === 'events' ? 'training' : key,`highlight ${key}`);
         assert.ok(Math.abs(state.bottom-state.height)<1,'dock stays fixed during scroll');
       }
     } else {
       assert.equal(await evaluate(`document.querySelectorAll('h1').length`),1);
       assert.equal(await evaluate(`document.querySelectorAll('.training-info-card').length`),13);
+      assert.equal(await evaluate(`document.querySelectorAll('details.training-info-card').length`),13,'all program sections are expandable');
+      assert.equal(await evaluate(`document.querySelectorAll('details.training-info-card[open]').length`),1,'only the first section starts expanded');
+      assert.ok(await evaluate(`document.querySelector('details.training-info-card summary').getBoundingClientRect().height >= 44`),'accordion has a mobile-friendly tap target');
+      await evaluate(`document.querySelectorAll('details.training-info-card')[1].querySelector('summary').click()`);
+      assert.equal(await evaluate(`document.querySelectorAll('details.training-info-card')[1].open`),true,'accordion opens on tap');
+      await evaluate(`document.querySelector('.training-info-grid').scrollIntoView()`); await delay(250);
+      const accordionScreenshot=await send('Page.captureScreenshot',{format:'png'});
+      fs.writeFileSync(path.join(profile,'training-accordion.png'),Buffer.from(accordionScreenshot.data,'base64'));
       assert.equal((await geometry()).active,'training');
       await evaluate(`scrollTo(0,document.body.scrollHeight)`);await delay(250);
       assert.ok(Math.abs((await geometry()).bottom-844)<1);
@@ -107,7 +121,7 @@ let socket;
   await evaluate(`document.querySelector('.training-back').click()`);
   for(let i=0;i<80;i++) {await delay(100);if(await evaluate(`location.pathname.endsWith('/index.php') && document.readyState !== 'loading' && !!document.querySelector('#certificates')`)) break;}
   await delay(500);
-  assert.equal((await geometry()).active,'events','back link returns to poster');
+  assert.equal((await geometry()).active,'training','back link returns to poster');
   await send('Emulation.setScriptExecutionDisabled',{value:true});
   await navigate('/index.php');
   assert.equal((await geometry()).position,'fixed','server-rendered nav works without page scripts');

@@ -146,11 +146,18 @@ const drivePhotoNames = [
 ];
 const drivePhotos = drivePhotoNames.map((name) => 'assets/drive/photos/' + encodeURIComponent(name));
 const galleryGrid = document.querySelector('.gallery-grid');
+const updateGalleryCount = () => {
+  if (!galleryGrid) return;
+  const count = galleryGrid.querySelectorAll('img').length;
+  const label = document.querySelector('.gallery-count');
+  if (label) label.textContent = String(count).padStart(2, '0') + ' / ' + String(count).padStart(2, '0');
+};
 if (galleryGrid && drivePhotos.length) {
   galleryGrid.querySelectorAll('img').forEach((image, index) => { image.src = drivePhotos[index % drivePhotos.length]; image.loading = 'lazy'; });
   drivePhotos.slice(4).forEach((src, index) => {
     const image = document.createElement('img'); image.src = src; image.alt = 'Залдағы сәт ' + (index + 5); image.loading = 'lazy'; image.className = 'drive-gallery-image'; galleryGrid.append(image);
   });
+  updateGalleryCount();
 }
 if (ambient && drivePhotos.length) {
   ambient.querySelectorAll('img').forEach((image, index) => { image.src = drivePhotos[index % drivePhotos.length]; });
@@ -195,6 +202,7 @@ fetch('media.php').then((response) => response.ok ? response.json() : null).then
   const currentGallery = document.querySelector('.gallery-grid');
   const existingNames = new Set(Array.from(document.images).map((image) => decodeURIComponent((image.src || '').split('/').pop())));
   uploadedGallery.forEach((src, index) => { const name = decodeURIComponent(src.split('/').pop()); if (existingNames.has(name)) return; const image = document.createElement('img'); image.src = src; image.alt = 'Галерея ' + (index + 1); image.loading = 'lazy'; image.className = 'uploaded-gallery-image'; currentGallery?.append(image); existingNames.add(name); });
+  updateGalleryCount();
   const certGrid = document.querySelector('.certificate-grid');
   uploadedCertificates.forEach((src, index) => { const name = decodeURIComponent(src.split('/').pop()); if (existingNames.has(name)) return; const card = document.createElement('a'); card.className = 'certificate-card'; card.href = src; card.target = '_blank'; card.rel = 'noopener'; card.innerHTML = '<img src="' + src + '" alt="Сертификат" loading="lazy"><span>Сертификат ' + String(index + 1).padStart(2, '0') + ' ↗</span>'; certGrid?.append(card); existingNames.add(name); });
 }).catch(() => {});

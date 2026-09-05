@@ -12,7 +12,7 @@ $publicLinks = [
 $mobileLinks = [
     ['home', 'Басты бет', 'index.php', '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/>'],
     $publicLinks[0],
-    $publicLinks[1],
+    $publicLinks[2],
     $publicLinks[3],
     $publicLinks[4],
 ];

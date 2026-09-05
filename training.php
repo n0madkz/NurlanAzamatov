@@ -53,7 +53,10 @@ $trainingIntro = preg_replace('/^# .+\R/u', '', $trainingIntro);
       if (in_array($number, [5, 6, 7, 8], true)) $classes .= ' training-offer';
       if ($number >= 10) $classes .= ' training-wide';
   ?>
-    <article class="<?= $classes ?>"><span class="training-section-number"><?= sprintf('%02d', $number + 1) ?></span><h2><?= trainingInline($parts[1]) ?></h2><?= trainingBody($parts[2], $trainingRegistration) ?></article>
+    <details class="<?= $classes ?>"<?= $number === 0 ? ' open' : '' ?>>
+      <summary><span class="training-section-number"><?= sprintf('%02d', $number + 1) ?></span><span class="training-card-title"><?= trainingInline($parts[1]) ?></span><svg class="training-toggle" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="training-card-body"><?= trainingBody($parts[2], $trainingRegistration) ?></div>
+    </details>
   <?php endforeach; ?>
   </div>
 </section>

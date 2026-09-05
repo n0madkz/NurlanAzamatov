@@ -21,7 +21,7 @@
       active = sections[sections.length - 1].key;
     }
     links.forEach(link => {
-      const linkActive = link.closest('.public-bottom-nav') && active === 'about' ? 'events' : active;
+      const linkActive = link.closest('.public-bottom-nav') && active === 'events' ? 'training' : active;
       if (link.dataset.navKey === linkActive) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
     });
