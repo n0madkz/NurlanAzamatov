@@ -70,12 +70,6 @@ certificates.innerHTML = '<div><p class="eyebrow">&#1057;&#1045;&#1056;&#1058;&#
 document.querySelector('.gallery').after(certificates);
 certificates.querySelector('.certificates-copy p')?.remove();
 const certLink = certificates.querySelector('a'); if (certLink) certLink.href = 'https://drive.google.com/drive/folders/12BPfRpNaDXNuGZ9H-7EWchXqUr53OM-Q';
-const nav = document.querySelector('.site-header nav'); if (nav && !nav.querySelector('[href="#certificates"]')) { const link = document.createElement('a'); link.href = '#certificates'; link.textContent = kz(0x0421,0x0435,0x0440,0x0442,0x0438,0x0444,0x0438,0x043a,0x0430,0x0442,0x0442,0x0430,0x0440); nav.append(link); }
-if (nav && !nav.querySelector('[href="#training"]')) { const link = document.createElement('a'); link.href = '#training'; link.textContent = '\u0422\u0440\u0435\u043d\u0438\u043d\u0433'; nav.insertBefore(link, nav.firstChild); }
-if (nav) {
-  const navLabels = {'#training':'\u0422\u0440\u0435\u043d\u0438\u043d\u0433','#events':'\u0410\u0444\u0438\u0448\u0430\u043b\u0430\u0440','#about':'\u0416\u043e\u0431\u0430 \u0442\u0443\u0440\u0430\u043b\u044b','#gallery':'\u0413\u0430\u043b\u0435\u0440\u0435\u044f','#certificates':'\u0421\u0435\u0440\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u0442\u0430\u0440'};
-  nav.querySelectorAll('a').forEach((link) => { if (navLabels[link.getAttribute('href')]) link.textContent = navLabels[link.getAttribute('href')]; });
-}
 const fontLink = document.createElement('link'); fontLink.rel = 'stylesheet'; fontLink.href = 'https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap'; document.head.append(fontLink);
 // Schedule screenshots are transcribed into the program section, so keep the gallery visual-only.
 const visualGallery = [
@@ -234,40 +228,6 @@ document.querySelectorAll('.poster-link').forEach((link) => {
 const menuButton = document.querySelector('.menu-toggle');
 if (menuButton) menuButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
 document.querySelectorAll('.ticker span:not(.ticker-copy)').forEach((item) => { item.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.4 6.2L19 7l-4.2 5 5.2 2.2-6.2.1L12 21l-1.8-6.7-6.2-.1L9.2 12 5 7l5.6 2.2L12 3Z"/></svg>'; });
-
-// Highlight the current section in the fixed mobile app navigation.
-const sectionNav = document.querySelector('.site-header nav');
-const navLinks = sectionNav ? [...sectionNav.querySelectorAll('a')] : [];
-if (sectionNav) {
-  const sections = navLinks.map((link) => document.querySelector(link.getAttribute('href')) || (link.getAttribute('href') === '#training' ? document.querySelector('.hero') : null)).filter(Boolean);
-  const setActive = (section) => navLinks.forEach((link) => { const target = document.querySelector(link.getAttribute('href')) || (link.getAttribute('href') === '#training' ? document.querySelector('.hero') : null); link.classList.toggle('is-active', target === section); });
-  const sectionObserver = new IntersectionObserver((entries) => {
-    const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (visible) setActive(visible.target);
-  }, { rootMargin: '-28% 0px -58% 0px', threshold: [0.1, 0.3, 0.6] });
-  sections.forEach((section) => sectionObserver.observe(section));
-  navLinks.forEach((link) => link.addEventListener('click', () => {
-    const target = document.querySelector(link.getAttribute('href')) || (link.getAttribute('href') === '#training' ? document.querySelector('.hero') : null);
-    if (target) setActive(target);
-  }));
-}
-
-// On mobile, detach the navigation from the header so it is a true bottom dock.
-if (sectionNav && window.matchMedia('(max-width: 750px)').matches) {
-  const navIcons = {
-    '#training': '<path d="M4 19.5V6.8a2 2 0 0 1 2-2h12v14H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12"/>',
-    '#events': '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h3M8 17h5"/>',
-    '#about': '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8.5h.01"/>',
-    '#gallery': '<rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m6 17 4-4 3 3 2-2 3 3"/>',
-    '#certificates': '<path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4"/>'
-  };
-  navLinks.forEach((link) => {
-    const href = link.getAttribute('href');
-    link.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (navIcons[href] || navIcons['#events']) + '</svg><span>' + link.textContent.trim() + '</span>';
-  });
-  sectionNav.classList.add('mobile-nav-dock');
-  document.body.append(sectionNav);
-}
 
 // Remove internal editorial labels that should not appear on the personal site.
 document.querySelector('.split-copy > .eyebrow')?.remove();

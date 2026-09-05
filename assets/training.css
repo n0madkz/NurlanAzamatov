@@ -13,7 +13,7 @@
 body{background:var(--quiz-ink);color:var(--quiz-paper)}
 body .site-header,body footer,body .split-section{background:var(--quiz-ink);border-color:#36505a}
 body .hero{background:linear-gradient(120deg,rgba(7,23,29,.94),rgba(8,44,57,.82))}
-body .hero h1 em,body h2 em,body .split-copy .text-link{color:var(--quiz-cyan)}
+body .hero h1 em,body .section h2 em,body .split-copy h2 em,body .nurlan-profile em,body .split-copy .text-link{color:var(--quiz-cyan)}
 body .button-coral{background:var(--quiz-acid);color:var(--quiz-ink)}
 body .button-coral:hover{background:#f2de65}
 body .hero-ring{border-color:var(--quiz-cyan)}
@@ -21,6 +21,15 @@ body .hero-image{border-color:#36505a;box-shadow:0 28px 80px #0008,12px 12px 0 #
 body .ticker{background:var(--quiz-acid);color:var(--quiz-ink)}
 body .ticker span{color:var(--quiz-ink)}
 body .ambient-bg{background:var(--quiz-ink)}
+body::before{background:linear-gradient(180deg,rgba(7,23,29,.78),rgba(8,44,57,.92))}
+body .media-links,body .certificates{background:rgba(8,44,57,.9);border-color:#36505a}
+body .media-button{border-color:#36505a}
+body .media-button b,body .media-button:hover{color:var(--quiz-cyan)}
+body .certificate-card:hover{border-color:var(--quiz-cyan)}
+body .hero-image::after{background:linear-gradient(180deg,rgba(7,23,29,.02),rgba(7,23,29,.34))}
+body .lightbox{background:rgba(7,23,29,.97)}
+body .lightbox-close,body .lightbox-prev,body .lightbox-next{background:var(--quiz-navy);border-color:#36505a}
+body .lightbox-close:hover,body .lightbox-prev:hover,body .lightbox-next:hover{color:var(--quiz-cyan);border-color:var(--quiz-cyan)}
 body .nurlan-profile{background:rgba(7,23,29,.9);border-color:#36505a}
 body .profile-facts li::before{background:var(--quiz-cyan)}
 body .profile-facts li,body .certificate-card{border-color:#36505a}
