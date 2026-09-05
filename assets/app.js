@@ -50,7 +50,7 @@ if (aboutText) aboutText.textContent = kz(0x0411,0x0456,0x0437,0x0020,0x043c,0x0
 const schoolName = kz(0x041d,0x04b1,0x0440,0x043b,0x0430,0x043d,0x0020,0x0410,0x0437,0x0430,0x043c,0x0430,0x0442,0x043e,0x0432,0x0442,0x044b,0x04a3,0x0020,0x0448,0x0435,0x0448,0x0435,0x043d,0x0434,0x0456,0x043a,0x0020,0x04e9,0x043d,0x0435,0x0440,0x0020,0x043c,0x0435,0x043a,0x0442,0x0435,0x0431,0x0456);
 const brandWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
 while (node = brandWalker.nextNode()) { if (node.nodeValue.includes('STAGESPEAK')) node.nodeValue = node.nodeValue.split('STAGESPEAK').join(schoolName); }
-document.title = schoolName + ' — афиша';
+// The page title comes from the managed training record.
 const scheduleIntro = document.querySelector('.schedule .section-intro'); if (scheduleIntro) scheduleIntro.innerHTML = '&#1058;&#1088;&#1077;&#1085;&#1077;&#1088;: &#1053;&#1201;&#1088;&#1083;&#1072;&#1085; &#1040;&#1079;&#1072;&#1084;&#1072;&#1090;&#1086;&#1074;<br>&#1058;&#1088;&#1077;&#1085;&#1080;&#1085;&#1075; &#1201;&#1079;&#1072;&#1179;&#1090;&#1099;&#1083;&#1099;&#1171;&#1099;: 14 &#1089;&#1072;&#1171;&#1072;&#1090;';
 const taplinkImages = ['assets/uploads/backgrounds/main/nurlan-portrait.JPG','assets/drive/photos/483528293_28821656594145921_3746918195898899378_n.jpg','assets/drive/photos/483365109_28816670661311181_1426371898592760444_n.jpg'];
 const heroImage = document.querySelector('.hero-image img'); if (heroImage) heroImage.src = taplinkImages[0];
@@ -127,7 +127,7 @@ document.addEventListener('keydown', (event) => { if (!lightbox.classList.contai
 // This is a personal website, so remove the organizer CTA and plural promo wording.
 document.querySelector('.header-link')?.remove();
 const descriptionMeta = document.querySelector('meta[name="description"]');
-if (descriptionMeta) descriptionMeta.setAttribute('content', 'Нұрлан Азаматовтың шешендік өнер мектебі туралы ақпарат және жеке афиша.');
+// Preserve the server-rendered training description.
 const personalCopy = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
 while (node = personalCopy.nextNode()) {
   node.nodeValue = node.nodeValue.replace(/Шешендік өнерге арналған тренингтер афишасы\.?/gi, '');
@@ -233,12 +233,4 @@ document.querySelectorAll('.ticker span:not(.ticker-copy)').forEach((item) => { 
 document.querySelector('.split-copy > .eyebrow')?.remove();
 document.querySelector('.gallery .eyebrow')?.remove();
 
-// Keep the landing message aligned with the current trainer preparation program.
-document.title = '«Шешендік өнер» курсының тренерін даярлау — Нұрлан Азаматов';
-document.querySelector('.hero h1').innerHTML = 'Шешендік өнерді<br><em>үйрететін</em><br>тренер болыңыз.';
-document.querySelector('.hero-text').textContent = '7 күнде дайын бағдарлама мен кәсіби әдістемені меңгеріңіз. 28 қыркүйек – 4 қазан 2026 · Астана.';
-document.querySelector('.hero .eyebrow').textContent = 'ҚАЗАҚ ТІЛІНДЕ · 15 ОРЫН · 2026';
-document.querySelector('.hero-image img').alt = 'Жаттықтырушы Нұрлан Азаматов';
-document.querySelector('.split-copy p:not(.eyebrow)').textContent = 'Нұрлан Азаматов 2012 жылдан бері шешендік өнерді оқытып, кәсіби жаттықтырушылар даярлап келеді. Тренингте балалар мен ересектерге арналған курсты жүргізудің дайын жүйесін меңгересіз.';
-document.querySelector('.image-caption')?.remove();
-document.querySelector('meta[name="description"]').content = '«Шешендік өнер» курсының тренерін даярлау. 28 қыркүйек – 4 қазан 2026, Астана. 7 күн, 42 сағат, 15 орын. Толық бағдарлама және тіркелу.';
+// Training title, summary and publication state are rendered by PHP from the admin record.

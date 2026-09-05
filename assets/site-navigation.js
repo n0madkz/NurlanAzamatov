@@ -10,8 +10,8 @@
   const update = () => {
     queued = false;
     const marker = Math.min(innerHeight * .3, 220);
-    const sections = ['events', 'about', 'gallery', 'certificates']
-      .map(key => ({key, node: document.getElementById(key)}))
+    const sections = ['home', 'events', 'about', 'gallery', 'certificates']
+      .map(key => ({key, node: key === 'home' ? document.querySelector('.hero') : document.getElementById(key)}))
       .filter(section => section.node)
       .map(section => ({...section, top: section.node.getBoundingClientRect().top}))
       .sort((a, b) => a.top - b.top);
@@ -21,7 +21,8 @@
       active = sections[sections.length - 1].key;
     }
     links.forEach(link => {
-      if (link.dataset.navKey === active) link.setAttribute('aria-current', 'location');
+      const linkActive = link.closest('.public-bottom-nav') && active === 'about' ? 'events' : active;
+      if (link.dataset.navKey === linkActive) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
     });
   };

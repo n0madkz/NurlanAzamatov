@@ -1,2 +1,5 @@
 tools/php/
 data/admin-password.hash
+data/training-state.json
+data/training-postgres.lock
+assets/uploads/posters/training-*

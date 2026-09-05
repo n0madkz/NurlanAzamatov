@@ -68,6 +68,7 @@ let socket;
         assert.equal(state.position,'fixed'); assert.equal(state.header,'none');
         assert.ok(Math.abs(state.bottom-height)<1,'dock bottom matches viewport');
         assert.equal(state.links.length,5);
+        assert.deepEqual(state.links.map(a=>a.text),['Басты бет','Тренинг','Афишалар','Галерея','Сертификаттар']);
         assert.ok(state.links.every(a=>a.icon&&a.height>=44&&!a.clipped),'icons, touch area and labels: '+JSON.stringify(state));
         assert.ok(Math.max(...state.links.map(a=>a.width))-Math.min(...state.links.map(a=>a.width))<1,'equal tabs');
       } else assert.equal(state.display,'none');
@@ -77,10 +78,11 @@ let socket;
       assert.equal(await evaluate(`document.querySelectorAll('.training-details').length`),0);
       assert.equal(await evaluate(`document.querySelector('.training-cover .training-cta').getAttribute('href')`),'training-details.php');
       await evaluate(`document.documentElement.style.scrollBehavior='auto'`);
+      assert.equal((await geometry()).active,'home','home is active at page start');
       for(const key of ['events','about','gallery','certificates']) {
         await evaluate(`document.getElementById('${key}').scrollIntoView()`); await delay(250);
         const state=await geometry();
-        assert.equal(state.active,key,`highlight ${key}`);
+        assert.equal(state.active,key === 'about' ? 'events' : key,`highlight ${key}`);
         assert.ok(Math.abs(state.bottom-state.height)<1,'dock stays fixed during scroll');
       }
     } else {
